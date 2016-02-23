@@ -1,19 +1,20 @@
 <ion-view view-title="Patient Type">
     <ion-header-bar align-title="center" class="bar-positive">
+        <button class="button button-icon  ion-arrow-left-c" ng-click="goBack()"></button>
         <h1 class="title">Dashboard</h1>
         <button class="button button-icon  ion-power" ng-click="logout()"></button>
     </ion-header-bar>
     <ion-content class="padding">
         <div class="mainPagedata">
             <h4>Select Patient Type :</h4>
-            <div class="list card" ng-click="listPatient()">
+            <div class="list card" ng-click="listPatient('opd')">
                 <div class="item item-text-wrap">
                     <i class="fa fa-user fa-3x" style="color: #387ef5;"></i>
                     <h2>OPD Patient</h2>
                     <span style="font-size:13px;">This is a basic Card which contains an item that has wrapping text.</span>
                 </div>
             </div>
-            <div class="list card" ng-click="listPatient()">
+            <div class="list card" ng-click="listPatient('admit')">
                 <div class="item item-text-wrap">
                     <i class="fa fa-bed fa-3x" style="color: #387ef5;"></i>
                     <h2>Admit Patient</h2>

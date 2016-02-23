@@ -1,15 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $state, $ionicPopup) {
+.controller('DashCtrl', function ($scope, $state, $ionicPopup, DataSharing) {
     $scope.logout = function () {
         $state.go("login");
     }
-    $scope.listPatient = function () {
+    $scope.listPatient = function (type) {
+        DataSharing.type = type;
         $state.go("patientlist");
     }
 })
 
-.controller('RegisterCtrl', function ($scope, $state, $ionicPopup, $firebaseArray, $cordovaCamera) {
+.controller('RegisterCtrl', function ($scope, $state, $ionicPopup, $firebaseArray, $cordovaCamera, DataSharing) {
     $scope.data = {
         firstname: '',
         lastname: '',
@@ -17,7 +18,8 @@ angular.module('starter.controllers', [])
         mobilenumber: '',
         address: '',
         email: '',
-        imageurl: "../images/default.png"
+        imageurl: "../images/default.png",
+        type: DataSharing.type
     };
 
     $scope.takePicture = function () {
@@ -48,17 +50,28 @@ angular.module('starter.controllers', [])
             localStorage.setItem("patients", JSON.stringify([$scope.data]));
         }
     }
+    $scope.addInputBox = function () {
+        console.log("11111111111");
+        $("#medicinesBox").html('<input type="text">');
+    }
 })
 
 
-.controller('PatientListCtrl', function ($scope, LoginService, $ionicPopup, $state) {
+.controller('PatientListCtrl', function ($scope, LoginService, $ionicPopup, $state, DataSharing) {
     $scope.showReorder = false;
     $scope.showDelete = false;
     $scope.patients = [];
+    var type = DataSharing.type;
     if (localStorage.getItem("patients")) {
-        $scope.patients = JSON.parse(localStorage.getItem("patients"));
+        var allPatients = JSON.parse(localStorage.getItem("patients"));
+        var newPatients = [];
+        for (var i = 0; i < allPatients.length; i++) {
+            if (allPatients[i].type == type) {
+                newPatients.push(allPatients[i]);
+            }
+        }
+        $scope.patients = newPatients;
     }
-    console.log("$scope.patients..." + JSON.stringify($scope.patients));
     $scope.addPatient = function () {
         $state.go("register");
     }
@@ -77,7 +90,14 @@ angular.module('starter.controllers', [])
     }
     $scope.doRefresh = function () {
         if (localStorage.getItem("patients")) {
-            $scope.patients = JSON.parse(localStorage.getItem("patients"));
+            var allPatients = JSON.parse(localStorage.getItem("patients"));
+            var newPatients = [];
+            for (var i = 0; i < allPatients.length; i++) {
+                if (allPatients[i].type == type) {
+                    newPatients.push(allPatients[i]);
+                }
+            }
+            $scope.patients = newPatients;
             $scope.$broadcast('scroll.refreshComplete');
         } else {
             $scope.$broadcast('scroll.refreshComplete');

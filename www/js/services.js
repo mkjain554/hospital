@@ -72,3 +72,9 @@ angular.module('starter.services', [])
         }
     }
 })
+
+.service('DataSharing', function () {
+    return {
+        type: ""
+    }
+})

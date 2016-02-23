@@ -8,7 +8,7 @@ var fb = new Firebase("https://intense-inferno-9747.firebaseio.com/");
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'firebase'])
 
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $rootScope, $ionicHistory) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -20,6 +20,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
+        }
+        $rootScope.goBack = function () {
+            $ionicHistory.goBack();
         }
     });
 })
